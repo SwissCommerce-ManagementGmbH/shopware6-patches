@@ -1,0 +1,16 @@
+Index: vendor/shopware/core/Content/Product/DataAbstractionLayer/VariantListingUpdater.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Content/Product/DataAbstractionLayer/VariantListingUpdater.php b/Content/Product/DataAbstractionLayer/VariantListingUpdater.php
+--- a/Content/Product/DataAbstractionLayer/VariantListingUpdater.php	(date 1619018725990)
++++ b/Content/Product/DataAbstractionLayer/VariantListingUpdater.php	(date 1619018725990)
+@@ -82,6 +82,7 @@
+                 $query->innerJoin('root', 'product_option', $mappingAlias, $mappingAlias . '.product_id IS NOT NULL');
+                 $query->innerJoin($mappingAlias, 'property_group_option', $optionAlias, $optionAlias . '.id = ' . $mappingAlias . '.property_group_option_id AND ' . $optionAlias . '.property_group_id = :' . $optionAlias);
+                 $query->andWhere($mappingAlias . '.product_id = product.id');
++                $query->setMaxResults(1);
+ 
+                 $fields[] = 'LOWER(HEX(' . $optionAlias . '.id))';
+ 
