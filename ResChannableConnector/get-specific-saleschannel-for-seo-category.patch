@@ -5,13 +5,12 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 ===================================================================
 diff --git a/src/Core/Api/Controller/ResChannableApiController.php b/src/Core/Api/Controller/ResChannableApiController.php
 --- a/src/Core/Api/Controller/ResChannableApiController.php	
-+++ b/src/Core/Api/Controller/ResChannableApiController.php	(date 1691155245005)
-@@ -1075,7 +1075,9 @@
-             # Categories from dynamic product groups
++++ b/src/Core/Api/Controller/ResChannableApiController.php	(date 1691158378501)
+@@ -1076,6 +1076,8 @@
              if ( method_exists($product,'getStreams') ) {
                  $streams = $product->getStreams();
-+                
-                 $product->getMainCategories()?->filterBySalesChannelId('c31731a56382434b87b9228d484986f7')->first();
+ 
++                $product->getMainCategories()?->filterBySalesChannelId('c31731a56382434b87b9228d484986f7')->first();
 +                
                  if ($streams instanceof ProductStreamCollection) {
                      $streams = $streams->getElements();
