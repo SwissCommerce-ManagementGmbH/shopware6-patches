@@ -5,7 +5,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 ===================================================================
 diff --git a/src/Core/Api/Controller/ResChannableApiController.php b/src/Core/Api/Controller/ResChannableApiController.php
 --- a/src/Core/Api/Controller/ResChannableApiController.php
-+++ b/src/Core/Api/Controller/ResChannableApiController.php	(date 1691158378501)
++++ b/src/Core/Api/Controller/ResChannableApiController.php	(date 1691419794814)
 @@ -272,6 +272,14 @@
          /** @var SalesChannelEntity|null $salesChannel */
          $salesChannel = $this->salesChannelRepository->search($criteria, $context)->get($salesChannelId);
