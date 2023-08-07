@@ -48,4 +48,3 @@ diff --git a/src/Core/Api/Controller/ResChannableApiController.php b/src/Core/Ap
  
                  if ($streams instanceof ProductStreamCollection) {
                      $streams = $streams->getElements();
-
