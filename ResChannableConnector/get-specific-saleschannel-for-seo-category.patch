@@ -4,8 +4,8 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
 diff --git a/src/Core/Api/Controller/ResChannableApiController.php b/src/Core/Api/Controller/ResChannableApiController.php
---- a/src/Core/Api/Controller/ResChannableApiController.php
-+++ b/src/Core/Api/Controller/ResChannableApiController.php	(date 1691419794814)
+--- a/src/Core/Api/Controller/ResChannableApiController.php	
++++ b/src/Core/Api/Controller/ResChannableApiController.php	(date 1691420958060)
 @@ -272,6 +272,14 @@
          /** @var SalesChannelEntity|null $salesChannel */
          $salesChannel = $this->salesChannelRepository->search($criteria, $context)->get($salesChannelId);
@@ -39,12 +39,12 @@ diff --git a/src/Core/Api/Controller/ResChannableApiController.php b/src/Core/Ap
      {
          $categories = $product->getCategories();
  
-@@ -1076,7 +1084,7 @@
+@@ -1076,6 +1084,8 @@
              if ( method_exists($product,'getStreams') ) {
                  $streams = $product->getStreams();
  
 +                $product->getMainCategories()?->filterBySalesChannelId($context->getSalesChannelId())->first();
 +
- 
                  if ($streams instanceof ProductStreamCollection) {
                      $streams = $streams->getElements();
+ 
