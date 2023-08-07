@@ -5,50 +5,13 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 ===================================================================
 diff --git a/src/Core/Api/Controller/ResChannableApiController.php b/src/Core/Api/Controller/ResChannableApiController.php
 --- a/src/Core/Api/Controller/ResChannableApiController.php
-+++ b/src/Core/Api/Controller/ResChannableApiController.php	(date 1691417648913)
-@@ -272,8 +272,16 @@
-         /** @var SalesChannelEntity|null $salesChannel */
-         $salesChannel = $this->salesChannelRepository->search($criteria, $context)->get($salesChannelId);
-
-+        if ( !$salesChannel ){
-+            $criteria = new Criteria();
-+            $criteria->addAssociation('domains');
-+            $criteria->addFilter(new EqualsFilter('domains.url', $this->shopBaseUrl));
-+            $salesChannel = $this->salesChannelRepository->search($criteria, $context)->first();
-+            $salesChannelId = $salesChannel->getId();
-+        }
-+
-         if ( !$salesChannel )
--            return ['error' => 'Invalid sales channel','success' => 'false'];
-+            return ['error' => 'Invalid sales channel', 'success' => 'false'];
-
-         # Workaround for old connections if language is not passed
-         if ( !$languageId )
-@@ -602,7 +610,7 @@
-         $article = [];
-         $article = $this->parseGeneral($article, $product, $parent, $salesChannelContext, $translation, $parentTranslation, $languageId, $salesChannelDomain);
-         $article = $this->parseImages($article, $product);
--        $article = $this->parseCategories($article, $product, $parent, $languageId);
-+        $article = $this->parseCategories($article, $product, $parent, $languageId, $salesChannelContext);
-         $article = $this->parseOptions($article, $product, $languageId);
-         $article = $this->parseProperties($article, $product, $languageId);
-         $article = $this->parseCustomFields($article, $product, $parent, $translation, $parentTranslation, $salesChannelContext);
-@@ -1063,7 +1071,7 @@
-      * @param string $languageId
-      * @return array
-      */
--    private function parseCategories(array $article, ProductEntity $product, ?ProductEntity $parent, string $languageId): array
-+    private function parseCategories(array $article, ProductEntity $product, ?ProductEntity $parent, string $languageId, SalesChannelContext $context): array
-     {
-         $categories = $product->getCategories();
-
-@@ -1076,7 +1084,7 @@
++++ b/src/Core/Api/Controller/ResChannableApiController.php	(date 1691158378501)
+@@ -1076,6 +1076,8 @@
              if ( method_exists($product,'getStreams') ) {
                  $streams = $product->getStreams();
 
--                $product->getMainCategories()?->filterBySalesChannelId('c31731a56382434b87b9228d484986f7')->first();
-+                $product->getMainCategories()?->filterBySalesChannelId($context->getSalesChannelId())->first();
-
++                $product->getMainCategories()?->filterBySalesChannelId('c31731a56382434b87b9228d484986f7')->first();
++
                  if ($streams instanceof ProductStreamCollection) {
                      $streams = $streams->getElements();
- 
+
