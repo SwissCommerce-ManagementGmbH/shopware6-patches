@@ -5,7 +5,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 ===================================================================
 diff --git a/src/Core/Api/Controller/ResChannableApiController.php b/src/Core/Api/Controller/ResChannableApiController.php
 --- a/src/Core/Api/Controller/ResChannableApiController.php	
-+++ b/src/Core/Api/Controller/ResChannableApiController.php	(date 1691420958060)
++++ b/src/Core/Api/Controller/ResChannableApiController.php	(date 1692101291816)
 @@ -272,6 +272,14 @@
          /** @var SalesChannelEntity|null $salesChannel */
          $salesChannel = $this->salesChannelRepository->search($criteria, $context)->get($salesChannelId);
@@ -16,8 +16,8 @@ diff --git a/src/Core/Api/Controller/ResChannableApiController.php b/src/Core/Ap
 +            $criteria->addFilter(new EqualsFilter('domains.url', $this->shopBaseUrl));
 +            $salesChannel = $this->salesChannelRepository->search($criteria, $context)->first();
 +            $salesChannelId = $salesChannel->getId();
-+        }
 +
++        }
          if ( !$salesChannel )
              return ['error' => 'Invalid sales channel','success' => 'false'];
  
@@ -35,16 +35,18 @@ diff --git a/src/Core/Api/Controller/ResChannableApiController.php b/src/Core/Ap
       * @return array
       */
 -    private function parseCategories(array $article, ProductEntity $product, ?ProductEntity $parent, string $languageId): array
-+    private function parseCategories(array $article, ProductEntity $product, ?ProductEntity $parent, string $languageId, SalesChannelContext $context): array
++    private function parseCategories(array $article, ProductEntity $product, ?ProductEntity $parent, string $languageId, SalesChannelContext $salesChannelContext): array
      {
          $categories = $product->getCategories();
  
-@@ -1076,6 +1084,8 @@
-             if ( method_exists($product,'getStreams') ) {
-                 $streams = $product->getStreams();
+@@ -1074,8 +1082,9 @@
  
-+                $product->getMainCategories()?->filterBySalesChannelId($context->getSalesChannelId())->first();
+             # Categories from dynamic product groups
+             if ( method_exists($product,'getStreams') ) {
++                $product->setMainCategories($product->getMainCategories()?->filterBySalesChannelId($salesChannelContext->getSalesChannelId()));
 +
+                 $streams = $product->getStreams();
+-
                  if ($streams instanceof ProductStreamCollection) {
                      $streams = $streams->getElements();
  
