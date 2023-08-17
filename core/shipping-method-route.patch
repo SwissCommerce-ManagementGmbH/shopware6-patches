@@ -1,0 +1,33 @@
+diff --git a/Checkout/Shipping/SalesChannel/ShippingMethodRoute.php b/Checkout/Shipping/SalesChannel/ShippingMethodRoute.php
+index 03fd4ed1c..ce1fd37c3 100644
+--- a/Checkout/Shipping/SalesChannel/ShippingMethodRoute.php
++++ b/Checkout/Shipping/SalesChannel/ShippingMethodRoute.php
+@@ -4,6 +4,7 @@ namespace Shopware\Core\Checkout\Shipping\SalesChannel;
+ 
+ use OpenApi\Annotations as OA;
+ use Shopware\Core\Checkout\Shipping\ShippingMethodCollection;
++use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
+ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+ use Shopware\Core\Framework\DataAbstractionLayer\Search\RequestCriteriaBuilder;
+@@ -85,13 +86,18 @@ class ShippingMethodRoute extends AbstractShippingMethodRoute
+             ->addFilter(new EqualsFilter('active', true))
+             ->addAssociation('media');
+ 
++
++        $result = $this->shippingMethodRepository->search($criteria, $context);
++
+         /** @var ShippingMethodCollection $shippingMethods */
+-        $shippingMethods = $this->shippingMethodRepository->search($criteria, $context)->getEntities();
++        $shippingMethods = $result->getEntities();
+ 
+         if ($request->query->getBoolean('onlyAvailable', false)) {
+             $shippingMethods = $shippingMethods->filterByActiveRules($context);
+         }
+ 
+-        return new ShippingMethodRouteResponse($shippingMethods);
++        $result->assign(['entities' => $shippingMethods, 'elements' => $shippingMethods, 'total' => $shippingMethods->count()]);
++
++        return new ShippingMethodRouteResponse(new ShippingMethodCollection($result));
+     }
+ }

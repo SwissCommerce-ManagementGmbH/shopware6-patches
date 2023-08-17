@@ -1,0 +1,16 @@
+diff --git a/src/Resources/config/services.xml b/src/Resources/config/services.xml
+--- a/src/Resources/config/services.xml	
++++ b/src/Resources/config/services.xml	(date 1669119333055)
+@@ -28,12 +28,5 @@
+             </call>
+         </service>
+ 
+-        <service id="Res\ResChannableConnector\Subscriber\Subscriber">
+-            <argument type="service" id="Res\ResChannableConnector\Setting\Service\Config\ResChannableConfigService" />
+-            <argument type="service" id="sales_channel.repository"/>
+-            <argument type="service" id="product.repository"/>
+-            <argument type="service" id="Doctrine\DBAL\Connection"/>
+-            <tag name="kernel.event_subscriber"/>
+-        </service>
+     </services>
+ </container>

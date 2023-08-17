@@ -1,0 +1,29 @@
++++ Framework/Indexing/ElasticsearchIndexer.php (date 1601051028224)
+@@ -258,6 +258,8 @@
+             $documents[] = ['delete' => ['_id' => $id]];
+         }
+ 
++        $this->removeDataKey($documents, 'slotConfig');
++
+         // index found entities
+         $result = $this->client->bulk([
+             'index' => $index,
+@@ -295,6 +297,17 @@
+         return $messages;
+     }
+ 
++    private function removeDataKey(array &$lookupArray, string $lookupKey)
++    {
++        foreach ($lookupArray as $key => &$value) {
++            if ($key === $lookupKey) {
++                $value = null;
++            } else if (is_array($value)) {
++                    $this->removeDataKey($value, $lookupKey);
++                }
++        }
++    }
++
+     private function createIndexingMessage(IndexerOffset $offset, Context $context): ?EntityIndexingMessage
+     {
+         $definition = $this->registry->get($offset->getDefinition());
+

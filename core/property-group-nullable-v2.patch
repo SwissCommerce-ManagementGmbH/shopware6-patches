@@ -1,0 +1,11 @@
+--- Content/Property/Aggregate/PropertyGroupOption/PropertyGroupOptionEntity.php	(date 1608120172433)
++++ Content/Property/Aggregate/PropertyGroupOption/PropertyGroupOptionEntity.php	(date 1608120172433)
+@@ -134,7 +134,7 @@
+         return $this->group;
+     }
+ 
+-    public function setGroup(PropertyGroupEntity $group): void
++    public function setGroup(?PropertyGroupEntity $group): void
+     {
+         $this->group = $group;
+     }

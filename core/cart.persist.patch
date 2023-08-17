@@ -1,0 +1,26 @@
+Index: vendor/shopware/core/Checkout/Cart/CartPersister.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Checkout/Cart/CartPersister.php b/Checkout/Cart/CartPersister.php
+--- a/Checkout/Cart/CartPersister.php	
++++ b/Checkout/Cart/CartPersister.php	(date 1627669284428)
+@@ -65,6 +65,7 @@
+             return;
+         }
+ 
++        $this->connection->beginTransaction();
+         $this->delete($cart->getToken(), $context);
+ 
+         $customerId = $context->getCustomer() ? Uuid::fromHexToBytes($context->getCustomer()->getId()) : null;
+@@ -84,7 +85,9 @@
+             'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+         ];
+ 
++
+         $this->connection->insert('cart', $data);
++        $this->connection->commit();
+ 
+         $this->eventDispatcher->dispatch(new CartSavedEvent($context, $cart));
+     }

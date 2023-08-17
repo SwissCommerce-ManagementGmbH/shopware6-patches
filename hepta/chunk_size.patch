@@ -1,0 +1,11 @@
+diff --git a/Exploration/ExplorationActor.php b/Exploration/ExplorationActor.php
+--- a/Exploration/ExplorationActor.php
++++ b/Exploration/ExplorationActor.php	(date 1683709679730)
+@@ -30,7 +30,7 @@
+
+ final class ExplorationActor implements ExplorationActorInterface
+ {
+-    public const CHUNK_SIZE_EMISSION = 10;
++    public const CHUNK_SIZE_EMISSION = 2;
+
+     public const CHUNK_SIZE_PUBLICATION = 50;

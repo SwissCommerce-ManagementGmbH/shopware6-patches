@@ -1,0 +1,42 @@
+diff --git a/Checkout/Payment/SalesChannel/PaymentMethodRoute.php b/Checkout/Payment/SalesChannel/PaymentMethodRoute.php
+--- a/Checkout/Payment/SalesChannel/PaymentMethodRoute.php	(date 1627479016895)
++++ b/Checkout/Payment/SalesChannel/PaymentMethodRoute.php	(date 1627479016895)
+@@ -4,7 +4,8 @@
+ 
+ use OpenApi\Annotations as OA;
+ use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
+-use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
++use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
++use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
+ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+ use Shopware\Core\Framework\DataAbstractionLayer\Search\RequestCriteriaBuilder;
+@@ -81,20 +82,23 @@
+         if (!$criteria) {
+             $criteria = $this->criteriaBuilder->handleRequest($request, new Criteria(), $this->paymentMethodDefinition, $context->getContext());
+         }
++
+         $criteria
+             ->addFilter(new EqualsFilter('active', true))
++            ->addSorting(new FieldSorting('position'))
+             ->addAssociation('media');
+ 
++        $result = $this->paymentMethodsRepository->search($criteria, $context);
++
+         /** @var PaymentMethodCollection $paymentMethods */
+-        $paymentMethods = $this->paymentMethodsRepository->search($criteria, $context)->getEntities();
+-        $paymentMethods->sort(function (PaymentMethodEntity $a, PaymentMethodEntity $b) {
+-            return $a->getPosition() <=> $b->getPosition();
+-        });
++        $paymentMethods = $result->getEntities();
+ 
+         if ($request->query->getBoolean('onlyAvailable', false)) {
+             $paymentMethods = $paymentMethods->filterByActiveRules($context);
+         }
+ 
+-        return new PaymentMethodRouteResponse($paymentMethods);
++        $result->assign(['entities' => $paymentMethods, 'elements' => $paymentMethods, 'total' => $paymentMethods->count()]);
++
++        return new PaymentMethodRouteResponse(new PaymentMethodCollection($result));
+     }
+ }

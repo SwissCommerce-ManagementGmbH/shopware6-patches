@@ -1,0 +1,25 @@
+--- Content/Category/Service/NavigationLoader.php	
++++ Content/Category/Service/NavigationLoader.php	(date 1651729852294)
+@@ -104,7 +104,18 @@
+         }
+ 
+         $root = $parents[$rootId] ?? [];
++        $root = AfterSort::sort($root);
++
++        $filtered = [];
++        /** @var TreeItem $item */
++        foreach ($root as $key => $item) {
++            if (!$item->getCategory()->getActive() || !$item->getCategory()->getVisible()) {
++                continue;
++            }
+ 
+-        return new Tree($active, AfterSort::sort($root));
+-    }
+-}
++            $filtered[$key] = $item;
++        }
++
++        return new Tree($active, $filtered);
++    }
++}
+\ No newline at end of file

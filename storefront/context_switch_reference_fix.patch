@@ -1,0 +1,13 @@
+diff --git a/Checkout/Cart/SalesChannel/StorefrontCartFacade.php b/Checkout/Cart/SalesChannel/StorefrontCartFacade.php
+index 575e2198..3341c401 100644
+--- a/Checkout/Cart/SalesChannel/StorefrontCartFacade.php
++++ b/Checkout/Cart/SalesChannel/StorefrontCartFacade.php
+@@ -70,7 +70,7 @@ class StorefrontCartFacade
+             return $originalCart;
+         }
+ 
+-        $updatedContext = clone $originalContext;
++        $updatedContext = $originalContext;
+         $updatedContext->assign([
+             'shippingMethod' => $contextShippingMethod,
+             'paymentMethod' => $contextPaymentMethod,

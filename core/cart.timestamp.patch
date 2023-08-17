@@ -1,0 +1,11 @@
+--- Content/Product/Cart/ProductCartProcessor.php	
++++ Content/Product/Cart/ProductCartProcessor.php	(date 1659323568000)
+@@ -102,6 +102,8 @@
+                     if (\in_array($lineItem->getReferencedId(), $products->getIds(), true)) {
+                         $lineItem->setDataTimestamp(new \DateTimeImmutable());
+                         $lineItem->setDataContextHash($hash);
++                    } else {
++                        $lineItem->setDataTimestamp(null);
+                     }
+                 }
+             }

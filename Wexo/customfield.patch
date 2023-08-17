@@ -1,0 +1,198 @@
+diff --git a/src/Service/UpdateParentProductStockService.php b/src/Service/UpdateParentProductStockService.php
+--- a/src/Service/UpdateParentProductStockService.php
++++ b/src/Service/UpdateParentProductStockService.php	(date 1669131403173)
+@@ -19,6 +19,7 @@
+
+ /**
+  * Class UpdateParentProductStockService
++ *
+  * @package Wexo\AggregateVariantStock\Service
+  */
+ class UpdateParentProductStockService
+@@ -38,6 +39,7 @@
+
+     /**
+      * UpdateParentProductStockService constructor.
++     *
+      * @param EntityRepositoryInterface $productRepository
+      * @param EntityRepositoryInterface $logEntryRepository
+      * @param MessageBusInterface $bus
+@@ -47,16 +49,17 @@
+     public function __construct(
+         EntityRepositoryInterface $productRepository,
+         EntityRepositoryInterface $logEntryRepository,
+-        MessageBusInterface $bus,
+-        SystemConfigService $systemConfigService,
++        MessageBusInterface       $bus,
++        SystemConfigService       $systemConfigService,
+         EntityRepositoryInterface $scheduledTaskRepository
+-    ) {
+-        $this->productRepository = $productRepository;
+-        $this->logEntryRepository = $logEntryRepository;
+-        $this->bus = $bus;
+-        $this->systemConfigService = $systemConfigService;
++    )
++    {
++        $this->productRepository       = $productRepository;
++        $this->logEntryRepository      = $logEntryRepository;
++        $this->bus                     = $bus;
++        $this->systemConfigService     = $systemConfigService;
+         $this->scheduledTaskRepository = $scheduledTaskRepository;
+-        $this->context = Context::createDefaultContext();
++        $this->context                 = Context::createDefaultContext();
+     }
+
+     /**
+@@ -67,9 +70,10 @@
+      */
+     public function updateParentProductStock(
+         array $parentProductIds = [],
+-        $forceQueue = false,
+-        bool $forceExecution = false
+-    ): void {
++              $forceQueue = false,
++        bool  $forceExecution = false
++    ): void
++    {
+         if (!$this->systemConfigService->get(WexoAggregateVariantStock::CONFIG_PREFIX . 'useScheduledTasks') &&
+             $forceExecution === false) {
+             return;
+@@ -78,7 +82,7 @@
+         $useMessageQueue = $this->systemConfigService
+             ->get(WexoAggregateVariantStock::CONFIG_PREFIX . 'useMessageQueue');
+
+-        if (! $parentProductIds) {
++        if (!$parentProductIds) {
+             $criteria = new Criteria();
+             $criteria->addFilter(new RangeFilter('childCount', [RangeFilter::GT => 0]));
+             $criteria->addFilter(new EqualsFilter('parentId', null));
+@@ -88,7 +92,7 @@
+                     $criteria,
+                     Context::createDefaultContext()
+                 )->getIds();
+-            } catch (\Error | \TypeError | \Exception $exception) {
++            } catch (\Error|\TypeError|\Exception $exception) {
+                 $this->handleException($exception);
+
+                 return;
+@@ -103,13 +107,13 @@
+             if ($useMessageQueue || $forceQueue) {
+                 try {
+                     $this->bus->dispatch(new Envelope($entity));
+-                } catch (\Error | \TypeError | \Exception $exception) {
++                } catch (\Error|\TypeError|\Exception $exception) {
+                     $this->handleException($exception);
+                 }
+             } else {
+                 try {
+                     $this->updateProductStock($parentProductId);
+-                } catch (\Error | \TypeError | \Exception $exception) {
++                } catch (\Error|\TypeError|\Exception $exception) {
+                     $this->handleException($exception);
+                 }
+             }
+@@ -126,10 +130,10 @@
+                 [
+                     'message' => 'Error executing updateService->updateParentProductStock()',
+                     'context' => [
+-                        'error' => $exception->getMessage(),
++                        'error'          => $exception->getMessage(),
+                         'exceptionTrace' => $exception->getTraceAsString()
+                     ],
+-                    'level' => Logger::ERROR,
++                    'level'   => Logger::ERROR,
+                     'channel' => WexoAggregateVariantStock::LOG_CHANNEL
+                 ]
+             ],
+@@ -139,6 +143,7 @@
+
+     /**
+      * @param array $productIds
++     *
+      * @return string[]
+      */
+     public function getParentIds(array $productIds): array
+@@ -175,23 +180,23 @@
+                 $stockSelector = WexoAggregateVariantStock::AVAILABLE_STOCK;
+             }
+
+-            $totalStock = $this->totalStockCalculator($productId, $stockSelector);
++            $totalStock           = $this->totalStockCalculator($productId, $stockSelector);
+             $productOriginalStock = $this->getOriginalStock($productId, $stockSelector);
+
+-            if ($productOriginalStock === $totalStock) {
++            if ($productOriginalStock === $totalStock || 5555 === $totalStock) {
+                 return;
+             }
+
+             $this->productRepository->update(
+                 [
+                     [
+-                        'id' => $productId,
++                        'id'    => $productId,
+                         'stock' => $totalStock
+                     ]
+                 ],
+                 Context::createDefaultContext()
+             );
+-        } catch (\Error | \TypeError | \Exception $exception) {
++        } catch (\Error|\TypeError|\Exception $exception) {
+             $this->handleException($exception);
+         }
+     }
+@@ -199,6 +204,7 @@
+     /**
+      * @param string $productId
+      * @param string $stockSelector
++     *
+      * @return int
+      */
+     public function getOriginalStock(string $productId, string $stockSelector): int
+@@ -222,6 +228,7 @@
+     /**
+      * @param string $productId
+      * @param string $stockSelector
++     *
+      * @return int
+      */
+     public function totalStockCalculator(string $productId, string $stockSelector): int
+@@ -237,14 +244,18 @@
+         $totalStock = 0;
+         /** @var ProductEntity $product */
+         foreach ($variants->getElements() as $product) {
+-            if ($stockSelector === WexoAggregateVariantStock::STOCK) {
+-                $stock = $allowNegativeValue ? $product->getStock() : max($product->getStock(), 0);
+-                $totalStock += $stock;
+-            }
+-            if ($stockSelector === WexoAggregateVariantStock::AVAILABLE_STOCK) {
+-                $availableStock = $allowNegativeValue ? $product->getAvailableStock() :
+-                    max($product->getAvailableStock(), 0);
+-                $totalStock += $availableStock;
++            if (isset($product->getCustomFields()['ape_product_set_productType']) && 2 === $product->getCustomFields()['ape_product_set_productType']) {
++                if ($stockSelector === WexoAggregateVariantStock::STOCK) {
++                    $stock      = $allowNegativeValue ? $product->getStock() : max($product->getStock(), 0);
++                    $totalStock += $stock;
++                }
++                if ($stockSelector === WexoAggregateVariantStock::AVAILABLE_STOCK) {
++                    $availableStock = $allowNegativeValue ? $product->getAvailableStock() :
++                        max($product->getAvailableStock(), 0);
++                    $totalStock     += $availableStock;
++                }
++            } else {
++                return 5555;
+             }
+         }
+
+@@ -269,10 +280,10 @@
+         if ($scheduledTask->getRunInterval() !== $timeInSeconds) {
+             try {
+                 $this->scheduledTaskRepository->update([[
+-                    'id' => $scheduledTask->getId(),
++                    'id'          => $scheduledTask->getId(),
+                     'runInterval' => $timeInSeconds
+                 ]], $this->context);
+-            } catch (\Error | \TypeError | \Exception $exception) {
++            } catch (\Error|\TypeError|\Exception $exception) {
+                 $this->handleException($exception, 'Error updating Scheduled Task time interval');
+             }
+         }

@@ -1,0 +1,9 @@
++++ Framework/Indexing/ElasticsearchIndexer.php	(date 1602100933124)
+@@ -259,6 +259,7 @@
+         }
+ 
+         $this->removeDataKey($documents, 'slotConfig');
++        $this->removeDataKey($documents, 'listingPrices');
+ 
+         // index found entities
+         $result = $this->client->bulk([

@@ -1,0 +1,18 @@
+Index: Content/ProductExport/Service/ProductExportGenerator.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Content/ProductExport/Service/ProductExportGenerator.php b/Content/ProductExport/Service/ProductExportGenerator.php
+--- a/Content/ProductExport/Service/ProductExportGenerator.php	(date 1618577034790)
++++ b/Content/ProductExport/Service/ProductExportGenerator.php	(date 1618577034790)
+@@ -114,7 +114,8 @@
+             ->addAssociation('manufacturer')
+             ->addAssociation('media')
+             ->addAssociation('prices')
+-            ->addAssociation('properties.group');
++            ->addAssociation('properties.group')
++            ->addAssociation('options.group');
+ 
+         $iterator = new SalesChannelRepositoryIterator($this->productRepository, $context, $criteria);
+ 

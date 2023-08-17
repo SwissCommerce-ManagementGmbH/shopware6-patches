@@ -1,0 +1,19 @@
+Index: vendor/shopware/core/Framework/Adapter/Cache/CacheInvalidationSubscriber.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Framework/Adapter/Cache/CacheInvalidationSubscriber.php b/Framework/Adapter/Cache/CacheInvalidationSubscriber.php
+--- a/Framework/Adapter/Cache/CacheInvalidationSubscriber.php	
++++ b/Framework/Adapter/Cache/CacheInvalidationSubscriber.php	(date 1635250530829)
+@@ -435,10 +435,6 @@
+ 
+     public function invalidatePropertyFilters(EntityWrittenContainerEvent $event): void
+     {
+-        $this->logger->invalidate(array_merge(
+-            $this->getChangedPropertyFilterTags($event),
+-            $this->getDeletedPropertyFilterTags($event)
+-        ));
+     }
+ 
+     public function invalidateReviewRoute(ProductChangedEventInterface $event): void
