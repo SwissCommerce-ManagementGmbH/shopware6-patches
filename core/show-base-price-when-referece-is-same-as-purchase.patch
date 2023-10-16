@@ -1,0 +1,21 @@
+Index: vendor/shopware/core/Content/Product/SalesChannel/Price/ProductPriceCalculator.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Content/Product/SalesChannel/Price/ProductPriceCalculator.php b/Content/Product/SalesChannel/Price/ProductPriceCalculator.php
+--- a/Content/Product/SalesChannel/Price/ProductPriceCalculator.php	
++++ b/Content/Product/SalesChannel/Price/ProductPriceCalculator.php	(date 1697461921591)
+@@ -263,9 +263,9 @@
+         if ($definition->getReference() === null || $definition->getReference() <= 0) {
+             return null;
+         }
+-        if ($definition->getPurchase() === $definition->getReference()) {
+-            return null;
+-        }
++//        if ($definition->getPurchase() === $definition->getReference()) {
++//            return null;
++//        }
+ 
+         $unit = $units->get($definition->getUnitId());
+         if ($unit === null) {
