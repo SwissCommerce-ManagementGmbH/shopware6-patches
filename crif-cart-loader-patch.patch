@@ -1,0 +1,14 @@
+diff --git a/src/Service/KsCrifCartRuleLoader.php b/src/Service/KsCrifCartRuleLoader.php
+index 81a9710..cc08632 100644
+--- a/src/Service/KsCrifCartRuleLoader.php
++++ b/src/Service/KsCrifCartRuleLoader.php
+@@ -83,7 +83,8 @@ class KsCrifCartRuleLoader extends CartRuleLoader
+         $cart = $this->cartPersister->load($cartToken, $context);
+       } catch(CartTokenNotFoundException $e) {}
+       if(
+-        stristr($_SERVER['REQUEST_URI'], 'checkout/confirm')
++        true === isset($_SERVER['REQUEST_URI'])
++        && stristr($_SERVER['REQUEST_URI'], 'checkout/confirm')
+         || stristr($_SERVER['REQUEST_URI'], 'checkout/order')
+         || stristr($_SERVER['REQUEST_URI'], 'account/payment')
+       ) {
