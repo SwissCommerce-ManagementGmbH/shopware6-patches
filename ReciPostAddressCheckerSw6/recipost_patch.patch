@@ -1,0 +1,39 @@
+diff -ruN recipostaddresscheckersw6-original/src/Components/Enum/PostApiScope.php recipostaddresscheckersw6/src/Components/Enum/PostApiScope.php
+--- recipostaddresscheckersw6-original/src/Components/Enum/PostApiScope.php	2025-05-13 18:47:02.410842225 +0000
++++ recipostaddresscheckersw6/src/Components/Enum/PostApiScope.php	2025-05-13 21:34:31.425692029 +0000
+@@ -4,6 +4,6 @@
+ 
+ class PostApiScope
+ {
+-    const auto_complete = 'WEDEC_AUTOCOMPLETE_ADDRESS';
+-    const validate_address = 'WEDEC_READ_ADDRESS WEDEC_VALIDATE_ADDRESS';
++    const auto_complete = 'DCAPI_ADDRESS_AUTOCOMPLETE';
++    const validate_address = 'DCAPI_ADDRESS_VALIDATE';
+ }
+\ No newline at end of file
+diff -ruN recipostaddresscheckersw6-original/src/Service/AddressCheckerService.php recipostaddresscheckersw6/src/Service/AddressCheckerService.php
+--- recipostaddresscheckersw6-original/src/Service/AddressCheckerService.php	2025-05-13 18:47:02.471295348 +0000
++++ recipostaddresscheckersw6/src/Service/AddressCheckerService.php	2025-05-13 21:34:13.083791161 +0000
+@@ -25,8 +25,8 @@
+ class AddressCheckerService
+ {
+     private $formdata;
+-    private $addressUri = "https://wedec.post.ch/api/address/v1/addresses/validation";
+-    private $zipUri = 'https://wedec.post.ch/api/address/v1/zips?type=DOMICILE&zipCity=';
++    private $addressUri = "https://dcapi.apis.post.ch/address/v1/addresses/validation";
++    private $zipUri     = 'https://dcapi.apis.post.ch/address/v1/zips?type=DOMICILE&zipCity=';
+ 
+     private SystemConfigService $systemConfigService;
+     private EntityRepositoryInterface $accessTokenRepository;
+diff -ruN recipostaddresscheckersw6-original/src/Service/PostAPIService.php recipostaddresscheckersw6/src/Service/PostAPIService.php
+--- recipostaddresscheckersw6-original/src/Service/PostAPIService.php	2025-05-13 18:47:02.471295348 +0000
++++ recipostaddresscheckersw6/src/Service/PostAPIService.php	2025-05-13 21:33:06.331767925 +0000
+@@ -22,7 +22,7 @@
+     private $scope;
+     private $type;
+ 
+-    private $token_uri = 'https://wedec.post.ch/WEDECOAuth/token';
++    private $token_uri = 'https://api.post.ch/OAuth/token';
+ 
+     private SystemConfigService $systemConfigService;
+     private EntityRepositoryInterface $accessTokenRepository;
