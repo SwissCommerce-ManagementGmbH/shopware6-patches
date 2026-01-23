@@ -1,5 +1,9 @@
 --- a/src/Subscriber/ProductIndexerEventSubscriber.php
 +++ b/src/Subscriber/ProductIndexerEventSubscriber.php
-@@ -7,7 +7,7 @@
+@@ -5,7 +5,7 @@
+ use Boxalino\DataIntegration\Service\Util\DiFlaggedIdHandlerInterface;
+ use Shopware\Core\Content\Product\Events\ProductIndexerEvent;
+ use Shopware\Core\Content\Product\ProductDefinition;
 -use Shopware\Coreuse Shopware\Core\Framework\Uuid\Uuid;
 +use Shopware\Core\Framework\Uuid\Uuid;
+ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
