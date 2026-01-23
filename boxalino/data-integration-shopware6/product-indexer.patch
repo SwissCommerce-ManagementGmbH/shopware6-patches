@@ -1,9 +1,11 @@
---- a/src/Subscriber/ProductIndexerEventSubscriber.php
-+++ b/src/Subscriber/ProductIndexerEventSubscriber.php
-@@ -5,7 +5,7 @@
+--- src/Subscriber/ProductIndexerEventSubscriber.php    2026-01-23 03:43:28.445770510 +0200
++++ src/Subscriber/ProductIndexerEventSubscriber.php    2026-01-23 03:44:27.621902925 +0200
+@@ -4,7 +4,7 @@
  use Boxalino\DataIntegration\Service\Util\DiFlaggedIdHandlerInterface;
  use Shopware\Core\Content\Product\Events\ProductIndexerEvent;
  use Shopware\Core\Content\Product\ProductDefinition;
 -use Shopware\Coreuse Shopware\Core\Framework\Uuid\Uuid;
 +use Shopware\Core\Framework\Uuid\Uuid;
  use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+ 
+ /**
