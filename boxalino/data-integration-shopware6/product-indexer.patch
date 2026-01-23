@@ -1,0 +1,4 @@
+7c7
+< use Shopware\Coreuse Shopware\Core\Framework\Uuid\Uuid;
+---
+> use Shopware\Core\Framework\Uuid\Uuid;
