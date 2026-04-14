@@ -6,4 +6,4 @@
 -{% block layout_header_actions_cart_widget %}
 -    ...
 -{% endblock %}
-+{% block layout_header_actions_cart_widget %}{% endblock %}
++{% block layout_header_actions_cart_widget_placeholder %}{% endblock %}
