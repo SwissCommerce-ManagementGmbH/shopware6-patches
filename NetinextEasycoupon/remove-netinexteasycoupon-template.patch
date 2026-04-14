@@ -1,7 +1,6 @@
 --- a/src/Resources/views/storefront/layout/header/actions/cart-widget.html.twig
 +++ b/src/Resources/views/storefront/layout/header/actions/cart-widget.html.twig
-@@ -1,19 +1 @@
--{% sw_extends "@Storefront/storefront/layout/header/actions/cart-widget.html.twig" %}
+@@ -1,18 +1 @@
 -
 -{% block layout_header_actions_cart_widget %}
 -    {% if 'net' === context.taxState and 0 > page.cart.price.positionPrice %}
